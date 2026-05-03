@@ -19,18 +19,21 @@ class AppHeader extends HTMLElement {
     const state = appState.get();
     const role = state.user?.rol;
     const isAuthed = Boolean(state.token);
+    const userLabel = state.user
+      ? `${state.user.nombre} · ${role ?? ''}`.trim()
+      : 'Acceso público';
 
     this.innerHTML = `
       <header class="app-header">
         <div class="app-header__inner">
           <div class="brand">
             <span class="brand__mark" aria-hidden="true"></span>
-            <span>Reserva Bistro</span>
+            <div>
+              <span>Reserva Bistro</span>
+              <div class="muted" style="font-size: 0.82rem;">Sistema de reservas para restaurante</div>
+            </div>
           </div>
           <nav class="nav" aria-label="Primary">
-            ${this.navButton('login', t('login'), !isAuthed)}
-            ${this.navButton('register', t('register'), !isAuthed)}
-            ${this.navButton('recover', t('recover'), !isAuthed)}
             ${this.navButton('profile', t('profile'), isAuthed)}
             ${this.navButton('reservas', t('reservas'), isAuthed)}
             ${this.navButton('plan', t('plan'), isAuthed && (role === 'HOST' || role === 'MANAGER'))}
@@ -39,6 +42,7 @@ class AppHeader extends HTMLElement {
             ${this.navButton('reportes', t('reportes'), isAuthed && role === 'MANAGER')}
           </nav>
           <div class="actions">
+            <span class="status-pill available" title="${userLabel}">${userLabel}</span>
             <button class="btn btn--ghost" data-action="lang">${state.language.toUpperCase()}</button>
             <button class="btn btn--ghost" data-action="theme">${t('theme')}</button>
             ${isAuthed ? `<button class="btn btn--primary" data-action="logout">${t('logout')}</button>` : ''}

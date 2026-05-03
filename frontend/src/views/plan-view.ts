@@ -14,30 +14,36 @@ export class PlanView extends BaseView {
 
   render(): void {
     this.setContent(`
-      <section class="card">
-        <h2>Plano del restaurante</h2>
-        <div data-notice class="notice"></div>
-        <div class="grid">
-          <div class="field">
-            <label>Fecha</label>
-            <input type="date" id="plan-fecha" />
+      <div class="page-shell">
+        <section class="page-hero">
+          <h1>Plano visual del restaurante</h1>
+          <p>Consulta el estado de las mesas para una fecha y hora específicas con una vista clara para el host y el gerente.</p>
+        </section>
+
+        <section class="card">
+          <div data-notice class="notice"></div>
+          <div class="grid">
+            <div class="field">
+              <label>Fecha</label>
+              <input type="date" id="plan-fecha" />
+            </div>
+            <div class="field">
+              <label>Hora</label>
+              <input type="time" id="plan-hora" />
+            </div>
+            <div class="field">
+              <label>&nbsp;</label>
+              <button class="btn btn--primary" id="plan-load">Cargar</button>
+            </div>
           </div>
-          <div class="field">
-            <label>Hora</label>
-            <input type="time" id="plan-hora" />
+          <div class="legend">
+            <span class="status-pill available">Disponible</span>
+            <span class="status-pill reserved">Reservada</span>
+            <span class="status-pill occupied">Ocupada</span>
           </div>
-          <div class="field">
-            <label>&nbsp;</label>
-            <button class="btn btn--primary" id="plan-load">Cargar</button>
-          </div>
-        </div>
-        <div class="legend">
-          <span class="status-pill available">Disponible</span>
-          <span class="status-pill reserved">Reservada</span>
-          <span class="status-pill occupied">Ocupada</span>
-        </div>
-        <div class="table-grid" id="plan-grid"></div>
-      </section>
+          <div class="table-grid" id="plan-grid"></div>
+        </section>
+      </div>
     `);
 
     const loadBtn = this.root.querySelector('#plan-load') as HTMLButtonElement | null;

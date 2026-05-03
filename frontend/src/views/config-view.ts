@@ -9,28 +9,34 @@ export class ConfigView extends BaseView {
 
   render(): void {
     this.setContent(`
-      <section class="card">
-        <h2>Configuracion del restaurante</h2>
-        <div data-notice class="notice"></div>
-        <form id="config-form" class="grid">
-          <div class="field">
-            <label>Hora apertura</label>
-            <input type="time" name="apertura" required />
-          </div>
-          <div class="field">
-            <label>Hora cierre</label>
-            <input type="time" name="cierre" required />
-          </div>
-          <div class="field">
-            <label>Duracion reserva (min)</label>
-            <input type="number" name="duracion" min="30" required />
-          </div>
-          <div class="field">
-            <label>&nbsp;</label>
-            <button class="btn btn--primary" type="submit">Guardar</button>
-          </div>
-        </form>
-      </section>
+      <div class="page-shell">
+        <section class="page-hero">
+          <h1>Configuración del restaurante</h1>
+          <p>Ajusta horarios operativos y duración estándar de reservas para mantener el flujo del salón bajo control.</p>
+        </section>
+
+        <section class="card">
+          <div data-notice class="notice"></div>
+          <form id="config-form" class="grid">
+            <div class="field">
+              <label>Hora apertura</label>
+              <input type="time" name="apertura" required />
+            </div>
+            <div class="field">
+              <label>Hora cierre</label>
+              <input type="time" name="cierre" required />
+            </div>
+            <div class="field">
+              <label>Duracion reserva (min)</label>
+              <input type="number" name="duracion" min="30" required />
+            </div>
+            <div class="field">
+              <label>&nbsp;</label>
+              <button class="btn btn--primary" type="submit">Guardar</button>
+            </div>
+          </form>
+        </section>
+      </div>
     `);
 
     const form = this.root.querySelector('#config-form') as HTMLFormElement | null;

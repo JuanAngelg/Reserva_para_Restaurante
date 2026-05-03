@@ -12,55 +12,61 @@ export class MesasView extends BaseView {
 
   render(): void {
     this.setContent(`
-      <section class="card">
-        <h2 data-i18n="mesas">${t('mesas')}</h2>
-        <div data-notice class="notice"></div>
-        <form id="mesa-form">
-          <div class="grid">
-            <div class="field">
-              <label data-i18n="table_number">${t('table_number')}</label>
-              <input type="number" name="numero" min="1" required />
+      <div class="page-shell">
+        <section class="page-hero">
+          <h1 data-i18n="mesas">${t('mesas')}</h1>
+          <p>Administra números, capacidades y posición del plano para que el salón responda visualmente como un mapa operativo real.</p>
+        </section>
+
+        <section class="card">
+          <div data-notice class="notice"></div>
+          <form id="mesa-form">
+            <div class="grid">
+              <div class="field">
+                <label data-i18n="table_number">${t('table_number')}</label>
+                <input type="number" name="numero" min="1" required />
+              </div>
+              <div class="field">
+                <label data-i18n="capacity">${t('capacity')}</label>
+                <input type="number" name="capacidad" min="1" required />
+              </div>
+              <div class="field">
+                <label data-i18n="shape">${t('shape')}</label>
+                <select name="forma">
+                  <option value="round">round</option>
+                  <option value="square">square</option>
+                </select>
+              </div>
+              <div class="field">
+                <label data-i18n="position_x">${t('position_x')}</label>
+                <input type="number" name="posicionX" required />
+              </div>
+              <div class="field">
+                <label data-i18n="position_y">${t('position_y')}</label>
+                <input type="number" name="posicionY" required />
+              </div>
             </div>
-            <div class="field">
-              <label data-i18n="capacity">${t('capacity')}</label>
-              <input type="number" name="capacidad" min="1" required />
+            <div class="actions">
+              <button class="btn btn--primary" type="submit" data-i18n="save">${t('save')}</button>
+              <button class="btn btn--ghost" type="button" id="mesa-cancel" data-i18n="cancel">${t('cancel')}</button>
             </div>
-            <div class="field">
-              <label data-i18n="shape">${t('shape')}</label>
-              <select name="forma">
-                <option value="round">round</option>
-                <option value="square">square</option>
-              </select>
-            </div>
-            <div class="field">
-              <label data-i18n="position_x">${t('position_x')}</label>
-              <input type="number" name="posicionX" required />
-            </div>
-            <div class="field">
-              <label data-i18n="position_y">${t('position_y')}</label>
-              <input type="number" name="posicionY" required />
-            </div>
-          </div>
-          <div class="actions">
-            <button class="btn btn--primary" type="submit" data-i18n="save">${t('save')}</button>
-            <button class="btn btn--ghost" type="button" id="mesa-cancel" data-i18n="cancel">${t('cancel')}</button>
-          </div>
-        </form>
-      </section>
-      <section class="card">
-        <h2 data-i18n="list">${t('list')}</h2>
-        <table class="table">
-          <thead>
-            <tr>
-              <th data-i18n="table_number">${t('table_number')}</th>
-              <th data-i18n="capacity">${t('capacity')}</th>
-              <th data-i18n="shape">${t('shape')}</th>
-              <th data-i18n="actions">${t('actions')}</th>
-            </tr>
-          </thead>
-          <tbody id="mesas-body"></tbody>
-        </table>
-      </section>
+          </form>
+        </section>
+        <section class="card">
+          <h2 data-i18n="list">${t('list')}</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th data-i18n="table_number">${t('table_number')}</th>
+                <th data-i18n="capacity">${t('capacity')}</th>
+                <th data-i18n="shape">${t('shape')}</th>
+                <th data-i18n="actions">${t('actions')}</th>
+              </tr>
+            </thead>
+            <tbody id="mesas-body"></tbody>
+          </table>
+        </section>
+      </div>
     `);
 
     const form = this.root.querySelector('#mesa-form') as HTMLFormElement | null;

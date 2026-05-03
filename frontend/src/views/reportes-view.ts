@@ -8,26 +8,32 @@ export class ReportesView extends BaseView {
 
   render(): void {
     this.setContent(`
-      <section class="card">
-        <h2>Reportes</h2>
-        <div data-notice class="notice"></div>
-        <form id="reporte-form" class="grid">
-          <div class="field">
-            <label>Fecha desde</label>
-            <input type="date" name="desde" required />
-          </div>
-          <div class="field">
-            <label>Fecha hasta</label>
-            <input type="date" name="hasta" required />
-          </div>
-          <div class="field">
-            <label>&nbsp;</label>
-            <button class="btn btn--primary" type="submit">Cargar</button>
-          </div>
-        </form>
-        <div class="card" id="ocupacion"></div>
-        <div class="card" id="no-shows"></div>
-      </section>
+      <div class="page-shell">
+        <section class="page-hero">
+          <h1>Reportes</h1>
+          <p>Visualiza patrones de ocupación, horas pico y no-shows para tomar decisiones operativas con mejor contexto.</p>
+        </section>
+
+        <section class="card">
+          <div data-notice class="notice"></div>
+          <form id="reporte-form" class="grid">
+            <div class="field">
+              <label>Fecha desde</label>
+              <input type="date" name="desde" required />
+            </div>
+            <div class="field">
+              <label>Fecha hasta</label>
+              <input type="date" name="hasta" required />
+            </div>
+            <div class="field">
+              <label>&nbsp;</label>
+              <button class="btn btn--primary" type="submit">Cargar</button>
+            </div>
+          </form>
+          <div class="card" id="ocupacion"></div>
+          <div class="card" id="no-shows"></div>
+        </section>
+      </div>
     `);
 
     const form = this.root.querySelector('#reporte-form') as HTMLFormElement | null;

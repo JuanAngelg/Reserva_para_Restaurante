@@ -10,59 +10,88 @@ export class LoginView extends BaseView {
 
   render(): void {
     this.setContent(`
-      <section class="card">
-        <h2 data-i18n="login">${t('login')}</h2>
-        <div data-notice class="notice"></div>
-        <form id="login-form">
-          <div class="field">
-            <label data-i18n="email">${t('email')}</label>
-            <input type="email" name="email" required />
+      <div class="auth-layout">
+        <section class="card auth-panel">
+          <div class="page-hero" style="margin-bottom: 18px;">
+            <h1>Reserva Bistro</h1>
+            <p>
+              Plataforma de reservas para restaurante con autenticación, roles, plano visual,
+              control de mesas y reportes. Diseñada para operar con tema claro/oscuro e i18n.
+            </p>
           </div>
-          <div class="field">
-            <label data-i18n="password">${t('password')}</label>
-            <input type="password" name="password" required />
-          </div>
-          <button class="btn btn--primary" type="submit">${t('login')}</button>
-        </form>
-      </section>
 
-      <section class="card">
-        <h2 data-i18n="register">${t('register')}</h2>
-        <form id="register-form">
-          <div class="field">
-            <label data-i18n="name">${t('name')}</label>
-            <input type="text" name="nombre" required />
+          <div class="metric">
+            <strong>+ Seguridad</strong>
+            <span class="muted">JWT, RBAC y validación estricta para cada flujo crítico.</span>
           </div>
-          <div class="field">
-            <label data-i18n="email">${t('email')}</label>
-            <input type="email" name="email" required />
+          <div class="metric" style="margin-top: 12px;">
+            <strong>+ Experiencia</strong>
+            <span class="muted">Interfaz simple para clientes y operativa clara para host y gerente.</span>
           </div>
-          <div class="field">
-            <label data-i18n="password">${t('password')}</label>
-            <input type="password" name="password" required />
-          </div>
-          <div class="field">
-            <label data-i18n="role">${t('role')}</label>
-            <select name="rol">
-              <option value="CLIENT">CLIENT</option>
-              <option value="HOST">HOST</option>
-              <option value="MANAGER">MANAGER</option>
-            </select>
-          </div>
-          <button class="btn btn--secondary" type="submit">${t('register')}</button>
-        </form>
-      </section>
 
-      <section class="card">
-        <h2 data-i18n="recover">${t('recover')}</h2>
-        <form id="recover-form">
-          <div class="field">
-            <label data-i18n="email">${t('email')}</label>
-            <input type="email" name="email" required />
-          </div>
-          <button class="btn btn--ghost" type="submit">${t('recover')}</button>
-        </form>
-      </section>
+          <ul class="feature-list" style="margin-top: 18px;">
+            <li>Reserva rápida con comprobación de disponibilidad.</li>
+            <li>Plano visual de mesas para host y gerente.</li>
+            <li>Soporte bilingüe ES/EN y tema claro/oscuro.</li>
+          </ul>
+        </section>
+
+        <div class="auth-stack">
+          <section class="card">
+            <h2 data-i18n="login">${t('login')}</h2>
+            <div data-notice class="notice"></div>
+            <form id="login-form">
+              <div class="field">
+                <label data-i18n="email">${t('email')}</label>
+                <input type="email" name="email" required autocomplete="email" />
+              </div>
+              <div class="field">
+                <label data-i18n="password">${t('password')}</label>
+                <input type="password" name="password" required autocomplete="current-password" />
+              </div>
+              <button class="btn btn--primary" type="submit">${t('login')}</button>
+            </form>
+          </section>
+
+          <section class="card">
+            <h2 data-i18n="register">${t('register')}</h2>
+            <form id="register-form">
+              <div class="field">
+                <label data-i18n="name">${t('name')}</label>
+                <input type="text" name="nombre" required autocomplete="name" />
+              </div>
+              <div class="field">
+                <label data-i18n="email">${t('email')}</label>
+                <input type="email" name="email" required autocomplete="email" />
+              </div>
+              <div class="field">
+                <label data-i18n="password">${t('password')}</label>
+                <input type="password" name="password" required autocomplete="new-password" />
+              </div>
+              <div class="field">
+                <label data-i18n="role">${t('role')}</label>
+                <select name="rol">
+                  <option value="CLIENT">CLIENT</option>
+                  <option value="HOST">HOST</option>
+                  <option value="MANAGER">MANAGER</option>
+                </select>
+              </div>
+              <button class="btn btn--secondary" type="submit">${t('register')}</button>
+            </form>
+          </section>
+
+          <section class="card">
+            <h2 data-i18n="recover">${t('recover')}</h2>
+            <form id="recover-form">
+              <div class="field">
+                <label data-i18n="email">${t('email')}</label>
+                <input type="email" name="email" required autocomplete="email" />
+              </div>
+              <button class="btn btn--ghost" type="submit">${t('recover')}</button>
+            </form>
+          </section>
+        </div>
+      </div>
     `);
 
     const loginForm = this.root.querySelector('#login-form') as HTMLFormElement | null;

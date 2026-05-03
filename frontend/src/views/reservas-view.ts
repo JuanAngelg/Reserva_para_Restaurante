@@ -9,84 +9,90 @@ export class ReservasView extends BaseView {
 
   render(): void {
     this.setContent(`
-      <section class="card">
-        <h2>Crear reserva</h2>
-        <div data-notice class="notice"></div>
-        <form id="reserva-form">
-          <div class="grid">
-            <div class="field">
-              <label>Nombre</label>
-              <input type="text" name="nombre" required />
+      <div class="page-shell">
+        <section class="page-hero">
+          <h1>Reservas</h1>
+          <p>Comprueba disponibilidad, crea reservas, filtra resultados y cambia estados sin salir de una vista clara y operativa.</p>
+        </section>
+
+        <section class="card">
+          <div data-notice class="notice"></div>
+          <form id="reserva-form">
+            <div class="grid">
+              <div class="field">
+                <label>Nombre</label>
+                <input type="text" name="nombre" required />
+              </div>
+              <div class="field">
+                <label>Email</label>
+                <input type="email" name="email" required />
+              </div>
+              <div class="field">
+                <label>Comensales</label>
+                <input type="number" name="comensales" min="1" required />
+              </div>
+              <div class="field">
+                <label>Fecha</label>
+                <input type="date" name="fecha" required />
+              </div>
+              <div class="field">
+                <label>Hora inicio</label>
+                <input type="time" name="hora" required />
+              </div>
+              <div class="field">
+                <label>Mesa ID (opcional)</label>
+                <input type="text" name="mesaId" />
+              </div>
             </div>
-            <div class="field">
-              <label>Email</label>
-              <input type="email" name="email" required />
+            <div class="actions">
+              <button class="btn btn--secondary" type="button" id="check-btn">Verificar</button>
+              <button class="btn btn--primary" type="submit">Crear</button>
             </div>
-            <div class="field">
-              <label>Comensales</label>
-              <input type="number" name="comensales" min="1" required />
-            </div>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Listado de reservas</h2>
+          <form id="filtros-form" class="grid">
             <div class="field">
               <label>Fecha</label>
-              <input type="date" name="fecha" required />
+              <input type="date" name="fecha" />
             </div>
             <div class="field">
-              <label>Hora inicio</label>
-              <input type="time" name="hora" required />
+              <label>Estado</label>
+              <select name="estado">
+                <option value="">Todos</option>
+                <option value="RESERVED">RESERVED</option>
+                <option value="OCCUPIED">OCCUPIED</option>
+                <option value="CANCELLED">CANCELLED</option>
+                <option value="NO_SHOW">NO_SHOW</option>
+              </select>
             </div>
             <div class="field">
-              <label>Mesa ID (opcional)</label>
-              <input type="text" name="mesaId" />
+              <label>Pagina</label>
+              <input type="number" name="pagina" value="1" min="1" />
             </div>
-          </div>
-          <div class="actions">
-            <button class="btn btn--secondary" type="button" id="check-btn">Verificar</button>
-            <button class="btn btn--primary" type="submit">Crear</button>
-          </div>
-        </form>
-      </section>
-
-      <section class="card">
-        <h2>Listado de reservas</h2>
-        <form id="filtros-form" class="grid">
-          <div class="field">
-            <label>Fecha</label>
-            <input type="date" name="fecha" />
-          </div>
-          <div class="field">
-            <label>Estado</label>
-            <select name="estado">
-              <option value="">Todos</option>
-              <option value="RESERVED">RESERVED</option>
-              <option value="OCCUPIED">OCCUPIED</option>
-              <option value="CANCELLED">CANCELLED</option>
-              <option value="NO_SHOW">NO_SHOW</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Pagina</label>
-            <input type="number" name="pagina" value="1" min="1" />
-          </div>
-          <div class="field">
-            <label>Limite</label>
-            <input type="number" name="limite" value="10" min="1" />
-          </div>
-          <button class="btn btn--ghost" type="submit">Buscar</button>
-        </form>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Cliente</th>
-              <th>Fecha</th>
-              <th>Hora</th>
-              <th>Mesa</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="reservas-body"></tbody>
-        </table>
-      </section>
+            <div class="field">
+              <label>Limite</label>
+              <input type="number" name="limite" value="10" min="1" />
+            </div>
+            <button class="btn btn--ghost" type="submit">Buscar</button>
+          </form>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Mesa</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="reservas-body"></tbody>
+          </table>
+        </section>
+      </div>
     `);
 
     const form = this.root.querySelector('#reserva-form') as HTMLFormElement | null;

@@ -52,14 +52,17 @@ export class ReportesView extends BaseView {
         const noShowsEl = this.root.querySelector('#no-shows') as HTMLElement | null;
 
         if (ocupacionEl) {
+          const data = Array.isArray(ocupacion) ? ocupacion : (ocupacion.datos || ocupacion.ocupancy || []);
           ocupacionEl.innerHTML = `
             <h3>Ocupacion</h3>
             <ul>
-              ${ocupacion
-                .map(
-                  (item) =>
-                    `<li>${item.fecha}: ${(item.porcentajeOcupacion * 100).toFixed(1)}% (${item.capacidadUtilizada}/${item.capacidadTotal})</li>`
-                )
+              ${data
+                .map((item) => {
+                  const porcentaje = Number(item.porcentajeOcupacion) || 0;
+                  const capacidadUtilizada = item.totalComensales ?? item.capacidadUtilizada ?? 0;
+                  const capacidadTotal = item.capacidadTotal ?? 0;
+                  return `<li>${item.fecha}: ${(porcentaje * 100).toFixed(1)}% (${capacidadUtilizada}/${capacidadTotal})</li>`;
+                })
                 .join('')}
             </ul>
           `;

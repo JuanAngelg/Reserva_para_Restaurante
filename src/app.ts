@@ -66,10 +66,15 @@ export class App {
     this.app.use(express.urlencoded({ extended: true }));
 
     // CORS simple (en producción usar paquete cors)
-    this.app.use((_req, res, next) => {
+    this.app.use((req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
       res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      // Responder directamente a preflight para evitar que pase por middlewares que requieren autenticación
+      if (req.method === 'OPTIONS') {
+        res.sendStatus(204);
+        return;
+      }
       next();
     });
   }
@@ -275,6 +280,7 @@ export class App {
     );
     reservaRouter.delete(
       '/:id',
+      authMiddleware.autenticar,
       ValidationMiddleware.validarParams(MesaSchemas.IdParamSchema),
       reservaController.cancelar
     );

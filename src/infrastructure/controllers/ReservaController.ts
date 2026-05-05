@@ -4,7 +4,7 @@ import { VerificarDisponibilidadUseCase } from '../../application/use-cases/Veri
 import { ListarReservasUseCase } from '../../application/use-cases/ListarReservasUseCase';
 import { ActualizarEstadoReservaUseCase } from '../../application/use-cases/ActualizarEstadoReservaUseCase';
 import { CancelarReservaUseCase } from '../../application/use-cases/CancelarReservaUseCase';
-import { RequestAutenticado } from '../../types';
+import { RequestAutenticado, Rol } from '../../types';
 
 /**
  * Controlador de reservas
@@ -64,14 +64,21 @@ export class ReservaController {
    * Lista reservas con filtros
    */
   listar = async (
-    req: Request,
+    req: RequestAutenticado,
     res: Response,
     next: NextFunction
   ): Promise<void> => {
     try {
-      const resultado = await this.listarReservasUseCase.ejecutar(
-        req.query as any
-      );
+      // Si el usuario está autenticado y es CLIENT, forzar que solo vea sus reservas
+      const query: any = { ...(req.query as any) };
+      if (req.user && req.user.rol === Rol.CLIENT) {
+        // Si no se especificó un filtro de usuario, forzar el id del token
+        if (!query.usuarioId) {
+          query.usuarioId = req.user.id;
+        }
+      }
+
+      const resultado = await this.listarReservasUseCase.ejecutar(query as any);
       res.status(200).json(resultado);
     } catch (error) {
       next(error);
@@ -109,7 +116,7 @@ export class ReservaController {
    * Cancela una reserva
    */
   cancelar = async (
-    req: Request,
+    req: RequestAutenticado,
     res: Response,
     next: NextFunction
   ): Promise<void> => {
@@ -119,8 +126,10 @@ export class ReservaController {
         res.status(400).json({ error: 'ID faltante' });
         return;
       }
-      
-      await this.cancelarReservaUseCase.ejecutar(id);
+
+      // Reforzar autorización: el usuario debe ser propietario o tener rol HOST/MANAGER
+      await this.cancelarReservaUseCase.ejecutar(id, req.user || undefined);
+
       res.status(200).json({
         mensaje: 'Reserva cancelada exitosamente',
       });

@@ -1,6 +1,7 @@
 import { BaseView } from './base-view.js';
 import { ReservasController } from '../controllers/reservas-controller.js';
 import { toNumber } from '../core/utils.js';
+import { appState } from '../core/state.js';
 
 export class ReservasView extends BaseView {
   constructor(root: HTMLElement, private readonly controller: ReservasController) {
@@ -156,9 +157,15 @@ export class ReservasView extends BaseView {
     const body = this.root.querySelector('#reservas-body') as HTMLElement | null;
     if (!body) return;
     const result = await this.controller.list(query);
+    const currentUser = appState.get().user;
+
     body.innerHTML = result.datos
       .map(
-        (reserva) => `
+        (reserva) => {
+          const isOwner = currentUser && reserva.usuarioId && currentUser.id === reserva.usuarioId;
+          const canManage = currentUser && (currentUser.rol === 'HOST' || currentUser.rol === 'MANAGER');
+          const showActions = Boolean(canManage || isOwner);
+          return `
         <tr>
           <td>${reserva.nombreCliente}</td>
           <td>${reserva.fecha}</td>
@@ -166,17 +173,20 @@ export class ReservasView extends BaseView {
           <td>${reserva.mesaId}</td>
           <td>${reserva.estado}</td>
           <td>
-            <select data-status="${reserva.id}">
-              <option value="RESERVED">RESERVED</option>
-              <option value="OCCUPIED">OCCUPIED</option>
-              <option value="CANCELLED">CANCELLED</option>
-              <option value="NO_SHOW">NO_SHOW</option>
-            </select>
-            <button class="btn btn--ghost" data-update="${reserva.id}">Actualizar</button>
-            <button class="btn btn--ghost" data-cancel="${reserva.id}">Cancelar</button>
+            ${showActions ? `
+              <select data-status="${reserva.id}">
+                <option value="RESERVED">RESERVED</option>
+                <option value="OCCUPIED">OCCUPIED</option>
+                <option value="CANCELLED">CANCELLED</option>
+                <option value="NO_SHOW">NO_SHOW</option>
+              </select>
+              <button class="btn btn--ghost" data-update="${reserva.id}">Actualizar</button>
+              <button class="btn btn--ghost" data-cancel="${reserva.id}">Cancelar</button>
+            ` : `<span class="muted">Sin acciones</span>`}
           </td>
         </tr>
       `
+        }
       )
       .join('');
 

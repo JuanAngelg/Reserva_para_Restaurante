@@ -1,6 +1,6 @@
 import { IReservaRepository } from '../../domain/ports/IReservaRepository';
 import { ActualizarEstadoReservaDTO, ReservaDTO } from '../dtos/ReservaDTO';
-import { ErrorNoEncontrado } from '../errors';
+import { ErrorNoEncontrado, ErrorNegocio } from '../errors';
 
 /**
  * Caso de uso: Actualizar estado de reserva
@@ -20,7 +20,12 @@ export class ActualizarEstadoReservaUseCase {
     }
 
     // Cambiar estado (valida transición internamente)
-    reserva.cambiarEstado(dto.estado);
+    try {
+      reserva.cambiarEstado(dto.estado);
+    } catch (error) {
+      const mensaje = error instanceof Error ? error.message : 'Estado de reserva inválido';
+      throw new ErrorNegocio(mensaje);
+    }
 
     await this.reservaRepository.actualizar(reserva);
 

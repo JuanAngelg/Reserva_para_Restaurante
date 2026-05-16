@@ -14,6 +14,7 @@ export class MesasView extends BaseView {
     this.setContent(`
       <div class="page-shell">
         <section class="page-hero">
+          <div class="eyebrow">Plano y capacidad</div>
           <h1 data-i18n="mesas">${t('mesas')}</h1>
           <p>Administra números, capacidades y posición del plano para que el salón responda visualmente como un mapa operativo real.</p>
         </section>

@@ -48,12 +48,14 @@ export class GenerarReporteOcupacionUseCase {
       const resultadoReservas = await this.reservaRepository.listar(
         {
           fecha: fechaDia,
-          estado: EstadoReserva.OCUPADA, // Solo contar las que se ocuparon
         },
         { pagina: 1, limite: 1000 }
       );
 
-      const reservas = resultadoReservas.datos;
+      const reservas = resultadoReservas.datos.filter((reserva) =>
+        reserva.estado === EstadoReserva.RESERVADA ||
+        reserva.estado === EstadoReserva.OCUPADA
+      );
 
       // Calcular estadísticas
       const stats = this.servicioAsignacion.calcularEstadisticasOcupacion(

@@ -11,6 +11,7 @@ export class ConfigView extends BaseView {
     this.setContent(`
       <div class="page-shell">
         <section class="page-hero">
+          <div class="eyebrow">Gestión del negocio</div>
           <h1>Configuración del restaurante</h1>
           <p>Ajusta horarios operativos y duración estándar de reservas para mantener el flujo del salón bajo control.</p>
         </section>

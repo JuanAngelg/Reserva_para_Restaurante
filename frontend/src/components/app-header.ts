@@ -30,7 +30,7 @@ class AppHeader extends HTMLElement {
             <span class="brand__mark" aria-hidden="true"></span>
             <div>
               <span>Reserva Bistro</span>
-              <div class="muted" style="font-size: 0.82rem;">Sistema de reservas para restaurante</div>
+              <div class="brand__subtitle">Sistema de reservas para restaurante</div>
             </div>
           </div>
           <nav class="nav" aria-label="Primary">

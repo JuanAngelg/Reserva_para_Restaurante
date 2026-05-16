@@ -15,6 +15,7 @@ export class ProfileView extends BaseView {
     this.setContent(`
       <div class="page-shell">
         <section class="page-hero">
+          <div class="eyebrow">Acceso personal</div>
           <h1 data-i18n="profile_title">${t('profile_title')}</h1>
           <p>Consulta y actualiza tus datos personales, credenciales y preferencias de acceso desde una pantalla clara y directa.</p>
         </section>

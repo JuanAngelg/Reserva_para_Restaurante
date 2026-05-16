@@ -6,10 +6,52 @@ export class ReportesView extends BaseView {
     super(root);
   }
 
+  private normalizarListaOcupacion(ocupacion: unknown): Array<{
+    fecha: string;
+    porcentajeOcupacion?: number;
+    totalComensales?: number;
+    capacidadUtilizada?: number;
+    capacidadTotal?: number;
+  }> {
+    if (Array.isArray(ocupacion)) {
+      return ocupacion as Array<{
+        fecha: string;
+        porcentajeOcupacion?: number;
+        totalComensales?: number;
+        capacidadUtilizada?: number;
+        capacidadTotal?: number;
+      }>;
+    }
+
+    if (ocupacion && typeof ocupacion === 'object') {
+      const payload = ocupacion as {
+        datos?: Array<{
+          fecha: string;
+          porcentajeOcupacion?: number;
+          totalComensales?: number;
+          capacidadUtilizada?: number;
+          capacidadTotal?: number;
+        }>;
+        ocupancy?: Array<{
+          fecha: string;
+          porcentajeOcupacion?: number;
+          totalComensales?: number;
+          capacidadUtilizada?: number;
+          capacidadTotal?: number;
+        }>;
+      };
+
+      return payload.datos || payload.ocupancy || [];
+    }
+
+    return [];
+  }
+
   render(): void {
     this.setContent(`
       <div class="page-shell">
         <section class="page-hero">
+          <div class="eyebrow">Analítica operativa</div>
           <h1>Reportes</h1>
           <p>Visualiza patrones de ocupación, horas pico y no-shows para tomar decisiones operativas con mejor contexto.</p>
         </section>
@@ -52,7 +94,7 @@ export class ReportesView extends BaseView {
         const noShowsEl = this.root.querySelector('#no-shows') as HTMLElement | null;
 
         if (ocupacionEl) {
-          const data = Array.isArray(ocupacion) ? ocupacion : (ocupacion.datos || ocupacion.ocupancy || []);
+          const data = this.normalizarListaOcupacion(ocupacion);
           ocupacionEl.innerHTML = `
             <h3>Ocupacion</h3>
             <ul>

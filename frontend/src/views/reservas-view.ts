@@ -8,10 +8,25 @@ export class ReservasView extends BaseView {
     super(root);
   }
 
+  private getAllowedStatusOptions(estadoActual: string): string[] {
+    switch (estadoActual) {
+      case 'RESERVED':
+        return ['RESERVED', 'OCCUPIED', 'CANCELLED', 'NO_SHOW'];
+      case 'OCCUPIED':
+        return ['OCCUPIED', 'CANCELLED'];
+      case 'CANCELLED':
+      case 'NO_SHOW':
+        return [estadoActual];
+      default:
+        return ['RESERVED', 'OCCUPIED', 'CANCELLED', 'NO_SHOW'];
+    }
+  }
+
   render(): void {
     this.setContent(`
       <div class="page-shell">
         <section class="page-hero">
+          <div class="eyebrow">Operación diaria</div>
           <h1>Reservas</h1>
           <p>Comprueba disponibilidad, crea reservas, filtra resultados y cambia estados sin salir de una vista clara y operativa.</p>
         </section>
@@ -165,6 +180,7 @@ export class ReservasView extends BaseView {
           const isOwner = currentUser && reserva.usuarioId && currentUser.id === reserva.usuarioId;
           const canManage = currentUser && (currentUser.rol === 'HOST' || currentUser.rol === 'MANAGER');
           const showActions = Boolean(canManage || isOwner);
+          const allowedStatusOptions = this.getAllowedStatusOptions(reserva.estado);
           return `
         <tr>
           <td>${reserva.nombreCliente}</td>
@@ -175,10 +191,9 @@ export class ReservasView extends BaseView {
           <td>
             ${showActions ? `
               <select data-status="${reserva.id}">
-                <option value="RESERVED">RESERVED</option>
-                <option value="OCCUPIED">OCCUPIED</option>
-                <option value="CANCELLED">CANCELLED</option>
-                <option value="NO_SHOW">NO_SHOW</option>
+                ${allowedStatusOptions
+                  .map((estado) => `<option value="${estado}" ${estado === reserva.estado ? 'selected' : ''}>${estado}</option>`)
+                  .join('')}
               </select>
               <button class="btn btn--ghost" data-update="${reserva.id}">Actualizar</button>
               <button class="btn btn--ghost" data-cancel="${reserva.id}">Cancelar</button>

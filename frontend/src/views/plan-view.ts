@@ -16,6 +16,7 @@ export class PlanView extends BaseView {
     this.setContent(`
       <div class="page-shell">
         <section class="page-hero">
+          <div class="eyebrow">Vista del host</div>
           <h1>Plano visual del restaurante</h1>
           <p>Consulta el estado de las mesas para una fecha y hora específicas con una vista clara para el host y el gerente.</p>
         </section>

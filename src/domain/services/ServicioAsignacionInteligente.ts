@@ -105,27 +105,15 @@ export class ServicioAsignacionInteligente {
       0
     );
 
-    const capacidadUtilizada = reservas.reduce((sum, reserva) => {
-      if (
-        reserva.estado === 'OCCUPIED' ||
-        (reserva.estado === 'RESERVED' && this.estaEnRango(reserva))
-      ) {
-        return sum + reserva.comensales;
-      }
-      return sum;
-    }, 0);
+    const capacidadUtilizada = reservas.reduce(
+      (sum, reserva) => sum + reserva.comensales,
+      0
+    );
 
     return {
       capacidadTotal,
       capacidadUtilizada,
       porcentajeOcupacion: capacidadTotal > 0 ? capacidadUtilizada / capacidadTotal : 0,
     };
-  }
-
-  private estaEnRango(reserva: Reserva): boolean {
-    const ahora = new Date();
-    const inicio = new Date(reserva.horaInicio);
-    const fin = new Date(reserva.horaFin);
-    return ahora >= inicio && ahora <= fin;
   }
 }

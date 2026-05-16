@@ -13,6 +13,7 @@ export class LoginView extends BaseView {
       <div class="auth-layout">
         <section class="card auth-panel">
           <div class="page-hero" style="margin-bottom: 18px;">
+            <div class="eyebrow">Sistema de reservas</div>
             <h1>Reserva Bistro</h1>
             <p>
               Plataforma de reservas para restaurante con autenticación, roles, plano visual,
